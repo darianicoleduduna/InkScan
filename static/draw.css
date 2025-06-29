@@ -1,0 +1,154 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: radial-gradient(circle, #e22671, #e26a92,pink);
+    margin: 0;
+  }
+  
+  .navbar {
+    background-color: #c02060;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    padding:10px;
+  }
+  
+  .navbar a:hover {
+    background-color: #c27996;
+    
+  }
+  
+  .logo {
+    height: 50px;
+    width: auto;
+  }
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+  h1 {
+    color: #000000;
+    margin-bottom: 20px;
+  }
+  
+  canvas {
+    border: 3px solid #1976d2;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .controls {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+  }
+  
+  .controls button {
+    padding: 10px 20px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .controls button:hover {
+    background-color: #404244;
+  }
+  
+  #recognized-text {
+    margin: 20px;
+    max-width: 700px;
+    width: 100%;
+    background: #fff;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    white-space: pre-wrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    min-height: 100px;
+    color: #333;
+  }
+
+  .tools {
+    margin-top: 15px;
+  }
+  
+  .tool-btn {
+    background-color: #f2f2f2;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    padding: 8px 12px;
+    margin: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s;
+  }
+  
+  .tool-btn i {
+    margin-right: 6px;
+  }
+  
+  .tool-btn:hover {
+    background-color: #e093be;
+  }
+  
+  .tool-btn.active {
+    background-color: #e97ca0;
+    color: white;
+    border-color: #ff4081;
+  }
+  
+  .save-button{
+    padding: 10px 20px;
+    background-color: #000000;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  .save-button:hover {
+    background-color: #404244;
+  }
+  
+  @media (max-width: 768px) {
+    canvas {
+      width: 100% !important;
+      height: auto !important;
+    }
+  }
+  
+  /*canvas {
+    border: 2px solid #531228;
+    background-color: rgb(245, 201, 212);
+    cursor: crosshair;
+  }
+  .controls {
+    margin-top: 10px;
+  }
+  #recognized-text {
+    margin-top: 20px;
+    white-space: pre-wrap;
+    border: 1px solid #ccc;
+    padding: 10px;
+    max-width: 600px;
+    font-family: monospace;
+  }*/

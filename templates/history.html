@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>History</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='history.css') }}">
+
+</head>
+<body>
+
+  <!-- HEADER CU LOGO -->
+  <header>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <img src="{{ url_for('static', filename='images/InkScanlogo.png') }}" alt="Logo" class="logo">
+      </div>
+      <div class="navbar-right">
+        <a href="{{ url_for('main') }}">Home</a>
+        <a href="{{ url_for('draw') }}">Draw</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="history-container">
+    <h1>Scan History</h1>
+
+    {% if history %}
+      {% for item in history %}
+        <div class="history-item">
+          <p class="timestamp">Scanned on: {{ item.timestamp }}</p>
+          <img src="/{{ item.image }}" alt="Scanned Image">
+          <pre>{{ item.text }}</pre>
+          
+          <div class="history-buttons">
+            <form method="POST" action="{{ url_for('delete_entry') }}" onsubmit="return confirm('Are you sure you want to delete this item?');">
+                <input type="hidden" name="index" value="{{ loop.index0 }}">
+                <button type="submit">Delete</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+      <form method="POST" action="{{ url_for('clear_history') }}" onsubmit="return confirm('Are you sure you want to clear all history?');">
+        <button class="clearhistory" type="submit">Clear All History</button>
+      </form>
+    {% else %}
+      <p>No history found. Start scanning!</p>
+    {% endif %}
+  </div>
+
+</body>
+</html>

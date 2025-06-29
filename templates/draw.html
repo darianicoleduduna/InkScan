@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Draw & Recognize</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='draw.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <img src="{{ url_for('static', filename='images/InkScanlogo.png') }}" alt="Logo" class="logo">
+      </div>
+      <div class="navbar-right">
+        <a href="{{ url_for('main') }}">Home</a>
+        <a href="{{ url_for('draw') }}">Draw</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </div>
+    </nav>
+  </header>
+  <div class="content">
+  <h1>Write Something, Draw Something</h1>
+
+  <div class="tools">
+    <button class="tool-btn active" onclick="setColor('black', this)"><i class="fas fa-paint-brush"  style="color:black"></i> Black</button>
+    <button class="tool-btn" onclick="setColor('red', this)"><i class="fas fa-paint-brush"  style="color:red"></i> Red</button>
+    <button class="tool-btn" onclick="setColor('blue', this)"><i class="fas fa-paint-brush"  style="color:blue"></i> Blue</button>
+    <button class="tool-btn" onclick="setColor('pink', this)"><i class="fas fa-paint-brush"  style="color:pink"></i> Pink</button>
+    <button class="tool-btn" onclick="setColor('violet', this)"><i class="fas fa-paint-brush"  style="color:violet"></i> Violet</button>
+    <button class="tool-btn" onclick="setColor('green', this)"><i class="fas fa-paint-brush"  style="color:green"></i> Green</button>
+    <button class="tool-btn" onclick="setEraser(true, this)"><i class="fas fa-eraser" style="color:black"></i> Eraser</button>
+  </div>
+  
+  <canvas id="board" width="600" height="300"></canvas>
+  <div class="controls">
+    <button onclick="clearCanvas()">Clear</button>
+    <button onclick="submitCanvas()">Recognize</button>
+    <button onclick="saveWithWatermark()" >Save</button>
+  </div>
+
+  <div id="recognized-text"></div>
+  
+  </div>
+  <script>
+    const canvas = document.getElementById('board');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = "#FFFFFF";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    let drawing = false;
+    let currentColor = 'black';
+    let erasing = false;
+
+    canvas.addEventListener('mousedown', () => drawing = true);
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+      ctx.beginPath();
+    });
+    canvas.addEventListener('mouseout', () => drawing = false);
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineWidth = 3;
+      ctx.lineCap = "round";
+      ctx.strokeStyle = erasing ? "#ffffff" : currentColor;
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    });
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      document.getElementById('recognized-text').innerText = '';
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    function submitCanvas() {
+      const dataURL = canvas.toDataURL('image/png');
+
+      fetch('/recognize-drawing', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: dataURL })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('recognized-text').innerText = data.text;
+      });
+    }
+
+    function setColor(color, button) {
+  erasing = false;
+  currentColor = color;
+  updateActiveTool(button);
+}
+
+function setEraser(state, button) {
+  erasing = state;
+  updateActiveTool(button);
+}
+
+function updateActiveTool(activeButton) {
+  document.querySelectorAll('.tool-btn').forEach(btn => btn.classList.remove('active'));
+  activeButton.classList.add('active');
+}
+  
+function saveWithWatermark() {
+  const canvas = document.getElementById('board');
+  const dataURL = canvas.toDataURL('image/png');
+
+  fetch('/save-drawing-watermark', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ image: dataURL })
+  })
+  .then(response => response.blob())
+  .then(blob => {
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'inkscan_watermarked.png';
+    link.click();
+  });
+}
+    </script>
+</body>
+</html>

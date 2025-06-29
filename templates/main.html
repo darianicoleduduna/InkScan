@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Upload Handwriting</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+
+  <header>
+    <nav class="navbar">
+      <div class="navbar-left">
+        <img src="{{ url_for('static', filename='images/InkScanlogo.png') }}" alt="Logo" class="logo">
+      </div>
+      <div class="navbar-right">
+        <a href="{{ url_for('main') }}">Home</a>
+        <a href="{{ url_for('draw') }}">Draw</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      </div>
+    </nav>
+  </header>
+  <div class="content">
+  <div class="upload-container">
+    <h1>Upload a handwritten image</h1>
+    <p>Go ahead and upload an image with your handwriting and we will scan it right out!
+       We'll determine the text you wrote, give you an option to hear the message and save it in your preferred format. 
+       You can click the button below to select the file (supported formats : JPG, JPEG, PNG).  Make sure your handwriting is neat!
+       <br>If you want you an interface where you can write cursive then <a href="{{ url_for('draw') }}">check our board here!</a>
+
+    </p>
+    <form method="POST" enctype="multipart/form-data">
+      <input type="file" name="image" accept="image/*" required>
+      <button type="submit">Analyze</button>
+    </form>
+
+    {% if image_url %}
+      <div class="result-area">
+        <h2>Uploaded Image</h2>
+        <img src="{{ url_for('static', filename='annotated.png') }}" class="uploaded-img">
+        
+        <h2>Recognized Text</h2>
+        <div class="text-box">
+            <div id= "recognized-text" style="
+            border: 2px solid #ccc;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 10px;
+            background-color: #fafafa;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            max-width: 700px;
+        ">
+          {{ text }}
+            </div>
+            <div class="buttons-audio">
+              <button onclick="speakText()" class="button-icon"><i class="fa fa-volume-up"></i></button>
+              <button onclick="stopSpeaking()"class="button-icon"><i class="fa fa-stop" ></i></button>
+            </div>
+        </div>
+        <div class="buttons-save">
+        <form action="{{ url_for('download_docx') }}" method="post">
+          <input type="hidden" name="text" value="{{ text }}">
+          <button type="submit">Download DOCX</button>
+        </form>
+        
+        <form action="{{ url_for('download_pdf') }}" method="post">
+          <input type="hidden" name="text" value="{{ text }}">
+          <button type="submit">Download PDF</button>
+        </form>
+      </div>
+      </div>
+    {% endif %}
+  </div>
+  </div>
+  <script>
+    function speakText() {
+      const text = document.getElementById("recognized-text").innerText;
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'en-US';
+      utterance.rate = 1; // Viteză normală
+      speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeaking() {
+    if (speechSynthesis.speaking || speechSynthesis.pending) {
+      speechSynthesis.cancel();
+    }
+  }
+    </script>
+    
+</body>
+</html>

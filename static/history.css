@@ -1,0 +1,90 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background: radial-gradient(circle, #e22671, #e26a92,pink);
+    align-items: center;
+    margin: 0;
+  }
+.navbar {
+    background-color: #c02060;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+    font-weight: bold;
+    padding:10px;
+  }
+  
+  .navbar a:hover {
+    background-color: #c27996;
+    
+  }
+  
+  .logo {
+    height: 50px;
+    width: auto;
+  }
+.history-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
+  }
+  .history-item {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  .history-item img {
+    max-width: 200px;
+    display: block;
+    margin-bottom: 10px;
+  }
+  .history-item pre {
+    white-space: pre-wrap;
+    background-color: #fff;
+    padding: 10px;
+    border: 1px dashed #aaa;
+    border-radius: 5px;
+  }
+  .history-buttons {
+    margin-top: 10px;
+  }
+  .history-buttons button {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    background-color: #e26a92;
+  }
+  .history-buttons button:hover {
+
+    background-color: #e697b1;
+  }
+  .clearhistory {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+    background-color: #d41b59;
+  }
+  .clearhistory:hover {
+
+    background-color: #e697b1;
+  }
+  
