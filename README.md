@@ -8,6 +8,9 @@ This project is a web application for recognizing handwritten text from images. 
 - **Upload handwritten images**  
   Users can upload images (JPG, JPEG, PNG) containing handwritten text for analysis.
 
+- **Image rotation correction**
+  The app finds the angle of rotation of the uploaded picture and corrects it, using the orientation of the handwritten text.
+
 - **Handwriting recognition from images**  
   The application automatically extracts handwritten text from images using advanced OCR models.
 
